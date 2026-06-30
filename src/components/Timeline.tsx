@@ -1,5 +1,3 @@
-import { useEffect, useRef } from 'react';
-
 const milestones = [
   {
     title: 'Little Girl',
@@ -39,28 +37,8 @@ const milestones = [
 ];
 
 export default function Timeline() {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-
-    const items = sectionRef.current?.querySelectorAll('.timeline-item');
-    items?.forEach((item) => observer.observe(item));
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section ref={sectionRef} className="timeline-section" id="timeline">
+    <section className="timeline-section" id="timeline">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16 fade-in">

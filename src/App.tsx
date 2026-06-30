@@ -3,6 +3,7 @@ import Loader from './components/Loader';
 import Hero from './components/Hero';
 import Carousel from './components/Carousel';
 import Timeline from './components/Timeline';
+import Gallery from './components/Gallery';
 import Letter from './components/Letter';
 import Reasons from './components/Reasons';
 import Quote from './components/Quote';
@@ -21,6 +22,27 @@ function App() {
     const timer = setTimeout(() => setLoading(false), 2200);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (loading) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+
+    const elements = document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [loading]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,6 +76,7 @@ function App() {
         <Hero />
         <Carousel />
         <Timeline />
+        <Gallery />
         <Letter />
         <Reasons />
         <Quote />

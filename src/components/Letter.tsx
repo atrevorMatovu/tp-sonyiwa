@@ -1,23 +1,6 @@
-import { useEffect, useRef } from 'react';
-
 export default function Letter() {
-  const ref = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('visible');
-        });
-      },
-      { threshold: 0.1 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section ref={ref} className="letter-section" id="letter">
+    <section className="letter-section" id="letter">
       {/* Decorative glows */}
       <div
         className="hero-bg-glow"

@@ -4,22 +4,32 @@ export default function FloatingEffects() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    const triggerConfetti = () => {
+      const colors = ['#f4a7b9', '#d4a843', '#e8d5f0', '#fce4ec', '#ffffff', '#e91e63'];
+      for (let i = 0; i < 80; i++) {
+        setTimeout(() => {
+          const piece = document.createElement('div');
+          piece.className = 'confetti-piece';
+          piece.style.left = Math.random() * 100 + 'vw';
+          piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+          piece.style.animationDuration = Math.random() * 2.5 + 2.5 + 's';
+          piece.style.width = Math.random() * 8 + 6 + 'px';
+          piece.style.height = piece.style.width;
+          if (Math.random() > 0.5) piece.style.borderRadius = '50%';
+          document.body.appendChild(piece);
+          setTimeout(() => piece.remove(), 5000);
+        }, i * 40);
+      }
+    };
+
     // Confetti on load
-    const colors = ['#f4a7b9', '#d4a843', '#e8d5f0', '#fce4ec', '#ffffff', '#e91e63'];
-    for (let i = 0; i < 60; i++) {
-      setTimeout(() => {
-        const piece = document.createElement('div');
-        piece.className = 'confetti-piece';
-        piece.style.left = Math.random() * 100 + 'vw';
-        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-        piece.style.animationDuration = Math.random() * 3 + 3 + 's';
-        piece.style.width = Math.random() * 8 + 6 + 'px';
-        piece.style.height = piece.style.width;
-        if (Math.random() > 0.5) piece.style.borderRadius = '50%';
-        document.body.appendChild(piece);
-        setTimeout(() => piece.remove(), 6000);
-      }, i * 50);
-    }
+    triggerConfetti();
+
+    // Listen for custom confetti trigger event
+    const handleConfettiTrigger = () => {
+      triggerConfetti();
+    };
+    window.addEventListener('trigger-confetti', handleConfettiTrigger);
 
     // Floating hearts
     const heartInterval = setInterval(() => {
@@ -100,6 +110,7 @@ export default function FloatingEffects() {
       clearInterval(heartInterval);
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', resize);
+      window.removeEventListener('trigger-confetti', handleConfettiTrigger);
     };
   }, []);
 

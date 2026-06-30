@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 
 const reasons = [
   { icon: '❤️', title: 'Your Kind Heart', text: 'A heart that gives without measure and loves without condition.' },
@@ -12,24 +11,8 @@ const reasons = [
 ];
 
 export default function Reasons() {
-  const ref = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('visible');
-        });
-      },
-      { threshold: 0.1 }
-    );
-    const cards = ref.current?.querySelectorAll('.reason-card');
-    cards?.forEach((card) => observer.observe(card));
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section ref={ref} className="cards-section" id="reasons">
+    <section className="cards-section" id="reasons">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16 fade-in">
           <p className="section-tag mb-3">Why We Celebrate You</p>

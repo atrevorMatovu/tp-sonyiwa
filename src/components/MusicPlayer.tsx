@@ -2,14 +2,23 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function MusicPlayer() {
   const [playing, setPlaying] = useState(false);
-  const audioRef = useRef<{ play: () => void; stop: () => void } | null>(null);
+  const [volume, setVolume] = useState(0.12);
+  const volumeRef = useRef(0.12);
+  volumeRef.current = volume;
+
+  const audioRef = useRef<{
+    play: () => void;
+    stop: () => void;
+    setVolume: (val: number) => void;
+  } | null>(null);
+
   const hasAttemptedAutoplay = useRef(false);
 
   useEffect(() => {
     // Create a soft piano melody using Web Audio API
     const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
     const masterGain = audioCtx.createGain();
-    masterGain.gain.value = 0.15;
+    masterGain.gain.value = volumeRef.current;
     masterGain.connect(audioCtx.destination);
 
     // Simple reverb-like effect with delay
@@ -82,8 +91,11 @@ export default function MusicPlayer() {
         masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
         masterGain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
         setTimeout(() => {
-          masterGain.gain.value = 0.15;
+          masterGain.gain.value = volumeRef.current;
         }, 100);
+      },
+      setVolume: (val: number) => {
+        masterGain.gain.setValueAtTime(val, audioCtx.currentTime);
       },
     };
 
@@ -125,6 +137,14 @@ export default function MusicPlayer() {
     }
   };
 
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = parseFloat(e.target.value);
+    setVolume(val);
+    if (audioRef.current) {
+      audioRef.current.setVolume(val);
+    }
+  };
+
   return (
     <div id="music-player">
       <button className="music-btn" onClick={togglePlay} aria-label={playing ? 'Pause music' : 'Play music'}>
@@ -139,25 +159,53 @@ export default function MusicPlayer() {
           </svg>
         )}
       </button>
-      <span className="music-label">
-        {playing ? 'Now Playing' : 'Play Music'}
-      </span>
-      {playing && (
-        <div className="flex items-end gap-0.5 ml-1" style={{ height: '16px' }}>
-          {[0, 1, 2, 3].map((i) => (
-            <div
-              key={i}
-              style={{
-                width: '2px',
-                background: 'linear-gradient(180deg, #f4a7b9, #d4a843)',
-                borderRadius: '1px',
-                animation: `musicBar 0.8s ease-in-out ${i * 0.15}s infinite alternate`,
-                height: '100%',
-              }}
-            />
-          ))}
+      
+      <div className="flex flex-col items-start gap-0.5">
+        <div className="flex items-center gap-1.5">
+          <span className="music-label">
+            {playing ? 'Now Playing' : 'Play Music'}
+          </span>
+          {playing && (
+            <div className="flex items-end gap-0.5" style={{ height: '10px' }}>
+              {[0, 1, 2, 3].map((i) => (
+                <div
+                  key={i}
+                  style={{
+                    width: '1.5px',
+                    background: 'linear-gradient(180deg, #f4a7b9, #d4a843)',
+                    borderRadius: '1px',
+                    animation: `musicBar 0.8s ease-in-out ${i * 0.15}s infinite alternate`,
+                    height: '100%',
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </div>
-      )}
+        
+        {/* Volume slider control */}
+        <div className="flex items-center gap-1.5 opacity-60 hover:opacity-100 transition-opacity mt-0.5">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#5a3d6b" strokeWidth="2.5">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+          </svg>
+          <input
+            type="range"
+            min="0"
+            max="0.4"
+            step="0.02"
+            value={volume}
+            onChange={handleVolumeChange}
+            style={{
+              width: '50px',
+              height: '3px',
+              cursor: 'pointer',
+              accentColor: '#d4a843',
+            }}
+          />
+        </div>
+      </div>
+
       <style>{`
         @keyframes musicBar {
           0% { transform: scaleY(0.3); }

@@ -123,13 +123,6 @@ export default function Hero() {
           </svg>
         </div>
 
-        <p
-          className="text-sm font-light tracking-[0.4em] uppercase mb-4"
-          style={{ color: 'rgba(244,167,185,0.8)', fontFamily: "'Lato', sans-serif" }}
-        >
-          A Celebration of Love
-        </p>
-
         <h1 className="hero-title mb-2">Happy Birthday,</h1>
         <h2 className="hero-name mb-8">Tracy</h2>
 

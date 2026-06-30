@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
 
 const wishes = [
   'Wishing you endless happiness.',
@@ -9,27 +8,10 @@ const wishes = [
 ];
 
 export default function Wishes() {
-  const ref = useRef<HTMLElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            setVisible(true);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
+  const visible = true;
 
   return (
-    <section ref={ref} className="wishes-section" id="wishes">
+    <section className="wishes-section" id="wishes">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-16 fade-in">
           <p className="section-tag mb-3">Sent With Love</p>
@@ -55,6 +37,23 @@ export default function Wishes() {
               <p>{w}</p>
             </div>
           ))}
+        </div>
+
+        {/* Celebrate button */}
+        <div className="flex justify-center mt-12 fade-in">
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent('trigger-confetti'))}
+            className="glass px-8 py-3.5 rounded-full text-sm font-semibold tracking-wider transition-all duration-300 hover:scale-105"
+            style={{
+              background: 'linear-gradient(135deg, var(--blush), var(--gold))',
+              color: 'white',
+              border: 'none',
+              boxShadow: '0 4px 20px rgba(244, 167, 185, 0.4)',
+              cursor: 'pointer',
+            }}
+          >
+            Celebrate Again 🎉
+          </button>
         </div>
       </div>
     </section>

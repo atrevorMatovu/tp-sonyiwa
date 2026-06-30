@@ -1,24 +1,29 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-// Photos ordered chronologically — Tracy's journey from childhood to today.
-import photo1 from '../assets/images/Tracy_20180217_222143.jpg';
-import photo2 from '../assets/images/IMG_20190405_214253.jpg';
-import photo3 from '../assets/images/IMG_20221105_154627_820.jpg';
-
 const slides = [
   {
-    src: photo1,
+    src: '/carousel-images/Tracy 20180217_222143.jpg',
     caption: 'Always beautiful — from the very beginning',
     position: 'center top',
   },
   {
-    src: photo2,
+    src: '/carousel-images/IMG_20190405_214253.jpg',
     caption: 'Carefree moments & a smile that never fades',
     position: 'center center',
   },
   {
-    src: photo3,
+    src: '/carousel-images/IMG_20221105_154627_820.jpg',
     caption: 'Grace, elegance, and a heart full of love',
+    position: 'center top',
+  },
+  {
+    src: '/carousel-images/20240623_100540-COLLAGE.jpg',
+    caption: 'A collage of beautiful memories',
+    position: 'center center',
+  },
+  {
+    src: '/carousel-images/IMG-20260628-WA0007.jpg',
+    caption: 'Radiant and shining bright today',
     position: 'center top',
   },
 ];
@@ -83,10 +88,18 @@ export default function Carousel() {
       >
         {slides.map((slide, i) => (
           <div key={i} className={`carousel-slide ${i === current ? 'active' : ''}`}>
+            {/* Blurred background image */}
+            <img
+              src={slide.src}
+              alt=""
+              className="carousel-blur-bg"
+              loading="lazy"
+            />
+            {/* Contained foreground image */}
             <img
               src={slide.src}
               alt={slide.caption}
-              style={{ objectPosition: slide.position }}
+              className="carousel-fg-img"
               loading={i === 0 ? 'eager' : 'lazy'}
             />
             <div className="carousel-overlay" />
