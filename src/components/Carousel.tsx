@@ -2,31 +2,34 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 
 const slides = [
   {
-    src: '/carousel-images/Tracy 20180217_222143.jpg',
+    src: 'Tracy 20180217_222143.jpg',
     caption: 'Always beautiful — from the very beginning',
     position: 'center top',
   },
   {
-    src: '/carousel-images/IMG_20190405_214253.jpg',
+    src: 'IMG_20190405_214253.jpg',
     caption: 'Carefree moments & a smile that never fades',
     position: 'center center',
   },
   {
-    src: '/carousel-images/IMG_20221105_154627_820.jpg',
+    src: 'IMG_20221105_154627_820.jpg',
     caption: 'Grace, elegance, and a heart full of love',
     position: 'center top',
   },
   {
-    src: '/carousel-images/20240623_100540-COLLAGE.jpg',
+    src: '20240623_100540-COLLAGE.jpg',
     caption: 'A collage of beautiful memories',
     position: 'center center',
   },
   {
-    src: '/carousel-images/IMG-20260628-WA0007.jpg',
+    src: 'IMG-20260628-WA0007.jpg',
     caption: 'Radiant and shining bright today',
     position: 'center top',
   },
-];
+].map(slide => ({
+  ...slide,
+  src: `${import.meta.env.BASE_URL}carousel-images/${slide.src}`
+}));
 
 export default function Carousel() {
   const [current, setCurrent] = useState(0);

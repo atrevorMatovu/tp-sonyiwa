@@ -2,76 +2,79 @@ import { useState } from 'react';
 
 const galleryImages = [
   {
-    src: '/carousel-images/Tracy 20180217_222143.jpg',
+    src: 'Tracy 20180217_222143.jpg',
     caption: 'Always beautiful — from the very beginning',
     date: '2018',
   },
   {
-    src: '/carousel-images/IMG_20190405_214253.jpg',
+    src: 'IMG_20190405_214253.jpg',
     caption: 'Carefree moments & a smile that never fades',
     date: '2019',
   },
   {
-    src: '/carousel-images/IMG_20221105_154627_820.jpg',
+    src: 'IMG_20221105_154627_820.jpg',
     caption: 'Grace, elegance, and a heart full of love',
     date: '2022',
   },
   {
-    src: '/carousel-images/Screenshot_20240519_221244.jpg',
+    src: 'Screenshot_20240519_221244.jpg',
     caption: 'A screenshot of pure joy and laughter',
     date: '2024',
   },
   {
-    src: '/carousel-images/Screenshot_20240522-190757_Photos.jpg',
+    src: 'Screenshot_20240522-190757_Photos.jpg',
     caption: 'Sweet captures & memories to keep',
     date: '2024',
   },
   {
-    src: '/carousel-images/20240623_100540-COLLAGE.jpg',
+    src: '20240623_100540-COLLAGE.jpg',
     caption: 'Beautiful collage of special memories',
     date: '2024',
   },
   {
-    src: '/carousel-images/20240623_100541.jpg',
+    src: '20240623_100541.jpg',
     caption: 'Radiant moments of happiness',
     date: '2024',
   },
   {
-    src: '/carousel-images/IMG-20240627-WA0000.jpg',
+    src: 'IMG-20240627-WA0000.jpg',
     caption: 'Warm and genuine smiles',
     date: '2024',
   },
   {
-    src: '/carousel-images/IMG-20250313-WA0011.jpg',
+    src: 'IMG-20250313-WA0011.jpg',
     caption: 'Shining bright through the seasons',
     date: '2025',
   },
   {
-    src: '/carousel-images/IMG-20250313-WA0012.jpg',
+    src: 'IMG-20250313-WA0012.jpg',
     caption: 'Elegance and inner peace',
     date: '2025',
   },
   {
-    src: '/carousel-images/IMG-20260404-WA0002.jpg',
+    src: 'IMG-20260404-WA0002.jpg',
     caption: 'Confidence and grace in every step',
     date: '2026',
   },
   {
-    src: '/carousel-images/IMG-20260404-WA0003.jpg',
+    src: 'IMG-20260404-WA0003.jpg',
     caption: 'Pure happiness captured in time',
     date: '2026',
   },
   {
-    src: '/carousel-images/IMG-20260628-WA0001.jpg',
+    src: 'IMG-20260628-WA0001.jpg',
     caption: 'Cherishing the modern moments',
     date: '2026',
   },
   {
-    src: '/carousel-images/IMG-20260628-WA0007.jpg',
+    src: 'IMG-20260628-WA0007.jpg',
     caption: 'Beautiful today, tomorrow, and forever',
     date: '2026',
   },
-];
+].map(photo => ({
+  ...photo,
+  src: `${import.meta.env.BASE_URL}carousel-images/${photo.src}`
+}));
 
 export default function Gallery() {
   const [activePhoto, setActivePhoto] = useState<number | null>(null);
